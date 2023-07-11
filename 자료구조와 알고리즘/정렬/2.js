@@ -30,5 +30,7 @@ const findOnlyOnceHelper = (arr) => {
 };
 
 // 배열의 길이로 어느쪽에 하나의 수가 있는지 찾는다.
+// 시간 복잡도: O(log2n)
+// 공간 복잡도: O(1)
 
 console.log(findOnlyOnceHelper([1, 1, 3, 3, 5, 5, 7, 7, 8, 8, 9]));
