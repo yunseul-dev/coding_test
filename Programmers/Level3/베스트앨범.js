@@ -1,16 +1,46 @@
-// 일부 런타임 에러
+function solution(genres, plays) {
+  const playByGenre = {};
+  const songsByGenre = {};
+
+  for (let i = 0; i < genres.length; i++) {
+    const genre = genres[i];
+    if (playByGenre[genre] === undefined) {
+      playByGenre[genre] = 0;
+      songsByGenre[genre] = [];
+    }
+    playByGenre[genre] += plays[i];
+    songsByGenre[genre].push({ index: i, play: plays[i] });
+  }
+
+  const sortedGenres = Object.keys(playByGenre).sort(
+    (a, b) => playByGenre[b] - playByGenre[a]
+  );
+
+  const answer = [];
+  sortedGenres.forEach((genre) => {
+    const songs = songsByGenre[genre];
+    songs.sort((a, b) => {
+      if (a.play === b.play) {
+        return a.index - b.index;
+      }
+      return b.play - a.play;
+    });
+    answer.push(songs[0].index);
+    if (songs.length > 1) {
+      answer.push(songs[1].index);
+    }
+  });
+
+  return answer;
+}
+
+// 일부 시간초과 런타임 에러
 function solution(genres, plays) {
   var answer = [];
-
-  var chart = [];
   let counts = new Map();
 
   for (let i = 0; i < genres.length; i++) {
-    chart.push([genres[i], plays[i]]);
-  }
-
-  for (let [genre, play] of chart) {
-    counts.set(genre, play + (counts.get(genre) || 0));
+    counts.set(genres[i], plays[i] + (counts.get(genres[i]) || 0));
   }
 
   const sortedGenres = [...counts.keys()].sort(
