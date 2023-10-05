@@ -1,4 +1,4 @@
-function solution(n, lost, reserve) {
+function solution1(n, lost, reserve) {
   // 체육복을 도난당했고, 여벌이 없는 학생
   const lostNoReserve = lost
     .sort((a, b) => a - b)
@@ -21,4 +21,24 @@ function solution(n, lost, reserve) {
   }
 
   return n - finalNoLend;
+}
+
+function solution2(n, lost, reserve) {
+  let students = Array.from({ length: n }, () => 1);
+
+  lost.map((elem) => students[elem - 1]--);
+
+  reserve.map((elem) => students[elem - 1]++);
+
+  for (let i = 0; i < students.length; i++) {
+    if (students[i] > 1 && students[i - 1] === 0) {
+      students[i]--;
+      students[i - 1]++;
+    } else if (students[i] > 1 && students[i + 1] === 0) {
+      students[i]--;
+      students[i + 1]++;
+    }
+  }
+
+  return students.filter((student) => student > 0).length;
 }
